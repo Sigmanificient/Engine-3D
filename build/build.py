@@ -19,15 +19,9 @@ file = sys.argv[1]
 nb = sys.argv[2]
 all = sys.argv[3]
 
-if nb > all:
-    nb = all
-
+nb = min(nb, all)
 place = 30
-if int(all) == 0:
-    percentage = 0
-else:
-    percentage = int(nb) * 100 / int(all)
-
+percentage = 0 if int(all) == 0 else int(nb) * 100 / int(all)
 display = bold + file
 if len(file) < place:
     display += " " * (place - len(file))

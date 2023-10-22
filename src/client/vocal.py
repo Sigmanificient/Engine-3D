@@ -54,11 +54,7 @@ class Listener:
                 device_info = sd.query_devices(args.device, "input")
                 args.samplerate = int(device_info["default_samplerate"])
             model = Model(lang="fr")
-            if args.filename:
-                dump_fn = open(args.filename, "wb")
-            else:
-                dump_fn = None
-
+            dump_fn = open(args.filename, "wb") if args.filename else None
             with sd.RawInputStream(samplerate=args.samplerate, blocksize=1000, device=args.device,
                     dtype="int16", channels=1, callback=self.callback):
                 rec = KaldiRecognizer(model, args.samplerate)
@@ -74,7 +70,7 @@ class Listener:
             print("\nDone")
             parser.exit(0)
         except Exception as e:
-            parser.exit(type(e).__name__ + ": " + str(e))
+            parser.exit(f"{type(e).__name__}: {str(e)}")
 
 if __name__ == "__main__":
     listener = Listener()
